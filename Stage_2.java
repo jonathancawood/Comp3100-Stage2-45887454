@@ -35,12 +35,40 @@ public class Stage_2 {
         }
     }
 
+    public static void main(String[] args) {
+        try { 
+            // initialise socket
+            socket = new Socket(ADDRESS,PORT);
+            din = new DataInputStream(socket.getInputStream());
+            dout = new DataOutputStream(socket.getOutputStream());
 
+            // Handshake
+            handshake(din, dout);
 
+            //ds-system.xml is available 
+            List<Server> dsServers = parseDSSystemXML(ADDRESS);
+            // to find out the server at the ds-sim server sde,
+            dout.write(REDY.getBytes());
+            String reply = din.readLine();
+            System.out.println("Server says: "+reply);
+            while(!reply.equals(NONE)){
+                //parse the incoming message from ds-server
+                List<String> parsedInfo = parseJOBNMessage(reply);                  //needs work 
+                //parseInfo 0> jobId
+                //1>> core
+                //2>> mem
+                //3>> disk 
 
+                String[] value = hangleGetsCapable(coreCount, memory, disk, din, dout);                                         //needs work
+                String Schedule = createSCHDString(jobId, Integer.parseInt(value[1]), Integer.parseInt(value[2])); //the SCHD   //needs work
+                dout.write(REDY.getBytes());
+                reply = din.readLine();
+                System.out.println("Server says: "+ reply);
+            }
+        } catch(IOException e) {
+            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, e);
+        }
 
-
-
-
+    }
 
 }
