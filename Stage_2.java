@@ -35,6 +35,16 @@ public class Stage_2 {
         }
     }
 
+    private static List<Server> parseDSSystemXML(String fileAddress){
+        List<Server> dsServerList = new ArrayList<>(); //create a Server class
+        //do the parsing here
+        //create job class, complete it with the reqired attributes like getter and setter functions
+        //create Server class, complete it with the required attributes like getter and setter functions 
+        //optional >> implement comparable for server class or job class
+        //easily sort those classes based on any attributes you want based collections java class
+    return dsServerList;
+    }
+
     public static void main(String[] args) {
         try { 
             // initialise socket
