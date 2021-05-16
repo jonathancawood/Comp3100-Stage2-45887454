@@ -19,4 +19,28 @@ public class Stage_2 {
     private static DataInputStream din;
     private static DataOutputStream dout;
 
+    private static void handshake(DataInputStream din, DataOutputStream dout) {
+        try {
+            // first step
+            dout.write(HELO.getBytes());
+            String reply = din.readLine();
+            System.out.println("Server says: " + reply);
+
+            // second step
+            dout.write(AUTH.getBytes());
+            reply = din.readLine();
+            System.out.println("Server says: " + reply);
+        } catch (IOException e) {
+            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+
+
+
+
+
+
+
+
 }
