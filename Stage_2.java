@@ -42,8 +42,21 @@ public class Stage_2 {
         //create Server class, complete it with the required attributes like getter and setter functions 
         //optional >> implement comparable for server class or job class
         //easily sort those classes based on any attributes you want based collections java class
-    return dsServerList;
+        return dsServerList;
     }
+
+    private static List<String> parseJOBNMessage(String serverReply){
+        List<String> info = new ArrayList<>();
+        String[] splitInfo = serverReply.split(WHITE_SPACE);
+        info.add(splitInfo[2]);
+        info.add(splitInfo[4]);
+        info.add(splitInfo[5]);
+        info.add(splitInfo[6]);
+        return info;
+    }
+
+
+
 
     public static void main(String[] args) {
         try { 
