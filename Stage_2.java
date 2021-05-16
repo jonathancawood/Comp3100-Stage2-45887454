@@ -59,6 +59,24 @@ public class Stage_2 {
         return "SCHD" +WHITE_SPACE + jobId + WHITE_SPACE + serverType + WHITE_SPACE + serverId;
     }
 
+    private static String[] hangleGetsCapable(int coreCount, int memory, int disk, DataInputStream din, DataOutputStream dout){
+        String GetsCapable = GETS_CAPABLE +WHITE_SPACE+ coreCount +WHITE_SPACE+ memory +WHITE_SPACE+ disk;
+        dout.write(GetsCapable.getBytes());
+        String reply = din.readLine();
+        String[] datareply =reply.split(WHITE_SPACE);
+        int lines = Integer.parseInt(datareply[1]);
+        int length = Integer.parseInt(datareply[2]);
+        for (){                                                                                      //needs work
+            //read message from server                                                               //needs work
+            //parse and add it to the temporay servers                                               //needs work 
+        }                                                                                            //needs work
+        //look for the best capcable server within temporry servers.                                 //needs work
+        String sId, stype;
+        String[] ans = new String[2];
+        ans[0]= sId;
+        ans[1]= stype;
+        return ans;
+    }
 
 
 
