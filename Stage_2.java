@@ -55,6 +55,10 @@ public class Stage_2 {
         return info;
     }
 
+    private static String createSCHDString(String jobId, int serverId, String serverType){
+        return "SCHD" +WHITE_SPACE + jobId + WHITE_SPACE + serverType + WHITE_SPACE + serverId;
+    }
+
 
 
 
