@@ -52,7 +52,24 @@ public class Stage_2 {
     }
 
     private static List<Server> parseDSSystemXML(String fileAddress){
-        List<Server> dsServerList = new ArrayList<>(); //create a Server class
+        List<Server> dsServerList = new ArrayList<>(); 
+
+
+
+        	// for (int i = 0; i < numServer; i++) {
+			// 	rcvd = readMSG(din);
+			// 	String[] stringList = parsing(rcvd);
+			// 	serverList[i] = new Server(stringList[0], stringList[4]);
+			// }
+        
+
+
+
+
+        
+        
+        
+        //create a Server class
         //do the parsing here
         //create job class, complete it with the reqired attributes like getter and setter functions
         //create Server class, complete it with the required attributes like getter and setter functions 
@@ -105,6 +122,34 @@ public class Stage_2 {
 
             // Handshake
             handshake(din, dout);
+
+            //ds-system.xml is available
+            List<Server> dsServers = parseDSSystemXML(ADDRESS);
+
+
+
+
+
+
+            // sendMSG("GETS All\n", dout);                                                    // get server DATA
+			// rcvd = readMSG(din);
+			// String[] Data = parsing(rcvd);                                                  // Data is an array of strings of all the servers
+			// sendMSG("OK\n", dout);
+
+			// // Initialise variable for server DATA
+			// int numServer = Integer.parseInt(Data[1]);                                      // Number of servers on system.
+			// Server[] serverList = new Server[numServer];                                    // Create server array.
+
+			// // Loop through all servers to create server list
+			// for (int i = 0; i < numServer; i++) {
+			// 	rcvd = readMSG(din);
+			// 	String[] stringList = parsing(rcvd);
+			// 	serverList[i] = new Server(stringList[0], stringList[4]);
+			// }
+
+			// Arrays.sort(serverList); // Sort Servers
+
+
 
 
             // //ds-system.xml is available 
