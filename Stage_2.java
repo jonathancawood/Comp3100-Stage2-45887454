@@ -29,6 +29,12 @@ public class Stage_2 {
 
 	}
 
+    public static String[] parsing(String data) {
+		String delims = "[ ]+"; 
+		String[] splitData = data.split(delims);
+		return splitData;
+	}
+
     private static void handshake(DataInputStream din, DataOutputStream dout) {
         try {
             // first step
@@ -99,6 +105,7 @@ public class Stage_2 {
 
             // Handshake
             handshake(din, dout);
+
 
             // //ds-system.xml is available 
             // List<Server> dsServers = parseDSSystemXML(ADDRESS);
