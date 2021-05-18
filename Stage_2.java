@@ -2,8 +2,6 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-
-
 public class Stage_2 {
     private static final String ADDRESS = "127.0.0.1";
     private static final int PORT = 50000;
@@ -68,7 +66,7 @@ public class Stage_2 {
         //optional >> implement comparable for server class or job class
         //easily sort those classes based on any attributes you want based collections java class
         return dsServerList;
-    }
+    }   //not used
 
     private static List<String> parseJOBNMessage(String serverReply){
         List<String> info = new ArrayList<>();
@@ -78,7 +76,7 @@ public class Stage_2 {
         info.add(splitInfo[5]);
         info.add(splitInfo[6]);
         return info;
-    }
+    }   //not used (implment to convert string to job class, maybe store in a list)
 
     private static String createSCHDString(String jobId, int serverId, String serverType){
         return "SCHD" +WHITE_SPACE + jobId + WHITE_SPACE + serverType + WHITE_SPACE + serverId;
@@ -101,7 +99,7 @@ public class Stage_2 {
         ans[0]= sId;
         ans[1]= stype;
         return ans;
-    }
+    }   // not used (using gets all)
 
     public static Server NewAlgorithm(Job job, String[] serverlist){
         //
@@ -119,9 +117,10 @@ public class Stage_2 {
             din = new DataInputStream(socket.getInputStream());
             dout = new DataOutputStream(socket.getOutputStream());
 
+            String rcvd = "";
+
 			HandShake(din, dout);
 
-			// hold first job for later
 			rcvd = readMSG(din);
 			String firstjob = rcvd;
 
@@ -133,7 +132,6 @@ public class Stage_2 {
 			int numServer = Integer.parseInt(Data[1]); 
 			Server[] serverList = new Server[numServer]; 
 
-			// Loop through all servers to create server list
 			for (int i = 0; i < numServer; i++) {
 				rcvd = readMSG(din);
 				String[] stringList = parsing(rcvd);
@@ -145,10 +143,13 @@ public class Stage_2 {
             //
             //
             //
-            //
-            //
-            //
-            //
+            
+            Server SelectedServer = NewAlgorithm(Firstjob, serverList);
+            // thinking this will have to go in the while loop so that ever job gets the right server
+            // going to have to figure out how to implement this in the while loop 
+            
+
+            
             //
             //
             //
@@ -157,10 +158,18 @@ public class Stage_2 {
 			rcvd = readMSG(din);
 
 			// Schedule jobs to server
-			rcvd = firstjob; // start with first job received.
+			rcvd = firstjob;
 
 			while (!rcvd.equals(NONE)) {
 				String[] job = parsing(rcvd); // Get job id and job type for switch statement
+
+                //
+                //
+
+                //thinking the code to call the algorithm is going to have to be here. 
+
+                //
+                //
 
 				switch (job[0]) {
 				case "JOBN": // Schedule job
@@ -180,12 +189,8 @@ public class Stage_2 {
 
 			dout.close();
 			s.close();
-
-
-
-
-            }
-        } catch(IOException e) {
+            
+        }catch(IOException e) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, e);
         }
 
