@@ -1,18 +1,38 @@
 public class Server {
+    private String type;
+    private int serverId;
+    private String state;
+    private int curStartTime;
     private int core;
     private int mem;
     private int disk;
-    //private int bootTime;
-    private String type;
-    private int limit; // shows how many servers of each type is avable at ds-server 
 
-    public Server(int _core, int _mem, int _disk, int _bootTime, int _limit, String _type){
-        //setters methods
+
+    public Server(String _type, int _serverID, String _state, int _curStartTime, int _core, int _mem, int _disk){
+        setServerType(_type);
+        setServerServerID(_serverID);
+        setServerState(_state);
+        setServerCurStartTime(_curStartTime);
         setServerCoreCount(_core);
         setServerMemory(_mem);
         setServerDisk(_disk);
-        setServerLimit(_limit);
-        setServerType(_type);
+
+    }
+
+    public void setServerType(String _type){
+        this.type = _type;
+    }
+
+    public void setServerServerID(int _serverID){
+        this.ServerID = _serverID;
+    }
+
+    public void setServerState(String _state){
+        this.state = _state;
+    }
+
+    public void setServerCurStartTime(int _curStartTime){
+        this.curStartTime = _curStartTime;
     }
 
     public void setServerCoreCount(int _coreCount){
@@ -27,12 +47,23 @@ public class Server {
         this.disk = _disk;
     }
 
-    public void setServerType(String _type){
-        this.type = _type;
+
+
+
+    public String getServerType(){
+        return this.type;
     }
 
-    public void setServerLimit(int _limit){
-        this.limit = _limit;
+    public int getServerServerID(){
+        return this.serverId;
+    }
+
+    public String getServerState(){
+        return this.state;
+    }
+
+    public int getServerCurStartTime(){
+        return this.curStartTime;
     }
 
     public int getServerCoreCount(){
@@ -45,14 +76,6 @@ public class Server {
 
     public int getServerDisk(){
         return this.disk;
-    }
-
-    public String getServerType(){
-        return this.type;
-    }
-
-    public int getServerLimit(){
-        return this.limit;
     }
 
 
