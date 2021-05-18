@@ -12,10 +12,12 @@ public class Stage_2 {
     private static final String OK = "OK\n";
     private static final String NONE = "NONE\n";
     private static final String AUTH = "AUTH BLANK\n";
+    private static final String QUIT = "QUIT\n";
     private static final String DSSYSTEM_FILE_ADDRESs = "ds-system.xml";
     private static final String WHITE_SPACE = " ";
     private static final String GETS_ALL = "GETS All\n";
     private static final String GETS_CAPABLE = "GETS Capable";
+    
     private static Socket socket;
     private static DataInputStream din;
     private static DataOutputStream dout;
@@ -27,7 +29,6 @@ public class Stage_2 {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-
 	}
 
     public static String[] parsing(String data) {
@@ -54,22 +55,12 @@ public class Stage_2 {
 
     private static List<Server> parseDSSystemXML(String fileAddress){
         List<Server> dsServerList = new ArrayList<>(); 
-
-
-
-        	// for (int i = 0; i < numServer; i++) {
-			// 	rcvd = readMSG(din);
-			// 	String[] stringList = parsing(rcvd);
-			// 	serverList[i] = new Server(stringList[0], stringList[4]);
-			// }
-        
-
-
-
-
-        
-        
-        
+       	// for (int i = 0; i < numServer; i++) {
+		// 	rcvd = readMSG(din);
+		// 	String[] stringList = parsing(rcvd);
+		// 	serverList[i] = new Server(stringList[0], stringList[4]);
+		// }
+    
         //create a Server class
         //do the parsing here
         //create job class, complete it with the reqired attributes like getter and setter functions
@@ -113,15 +104,17 @@ public class Stage_2 {
     }
 
     public static Server NewAlgorithm(Job job, String[] serverlist){
-
-
-
+        //
+        //
+        //
+        //
+        //
+        //
     return NewAlgorithmSERVER; // output of the new algorithm
     }
 
     public static void main(String[] args) {
         try { 
-            // initialise socket
             socket = new Socket(ADDRESS,PORT);
             din = new DataInputStream(socket.getInputStream());
             dout = new DataOutputStream(socket.getOutputStream());
@@ -132,14 +125,13 @@ public class Stage_2 {
 			rcvd = readMSG(din);
 			String firstjob = rcvd;
 
-			// Gets command to find the largest server
-			sendMSG(GETS_ALL, dout); // get server DATA
+			sendMSG(GETS_ALL, dout); 
 			rcvd = readMSG(din);
-			String[] Data = parsing(rcvd); // parse DATA to find the amount of servers
+			String[] Data = parsing(rcvd); 
 			sendMSG(OK, dout);
-			// Initialise variable for server DATA
-			int numServer = Integer.parseInt(Data[1]); // Number of servers on system.
-			Server[] serverList = new Server[numServer]; // Create server array.
+
+			int numServer = Integer.parseInt(Data[1]); 
+			Server[] serverList = new Server[numServer]; 
 
 			// Loop through all servers to create server list
 			for (int i = 0; i < numServer; i++) {
@@ -148,7 +140,50 @@ public class Stage_2 {
 				serverList[i] = new Server(stringList[0], stringList[1], stringList[2], stringList[3], stringList[4], stringList[5]);
 			}
 
-            Arrays.sort(serverList); // Sort Servers
+            Arrays.sort(serverList); 
+
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+            //
+
+            sendMSG(OK, dout); // catch the "." at end of data stream.
+			rcvd = readMSG(din);
+
+			// Schedule jobs to server
+			rcvd = firstjob; // start with first job received.
+
+			while (!rcvd.equals(NONE)) {
+				String[] job = parsing(rcvd); // Get job id and job type for switch statement
+
+				switch (job[0]) {
+				case "JOBN": // Schedule job
+					sendMSG("SCHD " + job[2] + " " + serverList[highestCoreIndex].getType() + " 0" + "\n", dout);
+					break;
+				case "JCPL": // If job is being completed send REDY
+					sendMSG(REDY, dout);
+					break;
+				case "OK": // Ask for next job
+					sendMSG(REDY, dout);
+					break;
+				}
+				rcvd = readMSG(din);
+			}
+
+			sendMSG(QUIT, dout);
+
+			dout.close();
+			s.close();
+
+
+
+
             }
         } catch(IOException e) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, e);
