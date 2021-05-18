@@ -14,6 +14,7 @@ public class Stage_2 {
     private static final String AUTH = "AUTH BLANK\n";
     private static final String DSSYSTEM_FILE_ADDRESs = "ds-system.xml";
     private static final String WHITE_SPACE = " ";
+    private static final String GETS_ALL = "GETS All\n";
     private static final String GETS_CAPABLE = "GETS Capable";
     private static Socket socket;
     private static DataInputStream din;
@@ -114,7 +115,7 @@ public class Stage_2 {
     public static Server NewAlgorithm(Job job, String[] serverlist){
 
 
-        
+
     return NewAlgorithmSERVER; // output of the new algorithm
     }
 
@@ -125,57 +126,29 @@ public class Stage_2 {
             din = new DataInputStream(socket.getInputStream());
             dout = new DataOutputStream(socket.getOutputStream());
 
-            // Handshake
-            handshake(din, dout);
+			HandShake(din, dout);
 
-            //ds-system.xml is available
-            List<Server> dsServers = parseDSSystemXML(ADDRESS);
+			// hold first job for later
+			rcvd = readMSG(din);
+			String firstjob = rcvd;
 
+			// Gets command to find the largest server
+			sendMSG(GETS_ALL, dout); // get server DATA
+			rcvd = readMSG(din);
+			String[] Data = parsing(rcvd); // parse DATA to find the amount of servers
+			sendMSG(OK, dout);
+			// Initialise variable for server DATA
+			int numServer = Integer.parseInt(Data[1]); // Number of servers on system.
+			Server[] serverList = new Server[numServer]; // Create server array.
 
+			// Loop through all servers to create server list
+			for (int i = 0; i < numServer; i++) {
+				rcvd = readMSG(din);
+				String[] stringList = parsing(rcvd);
+				serverList[i] = new Server(stringList[0], stringList[1], stringList[2], stringList[3], stringList[4], stringList[5]);
+			}
 
-
-
-
-            // sendMSG("GETS All\n", dout);                                                    // get server DATA
-			// rcvd = readMSG(din);
-			// String[] Data = parsing(rcvd);                                                  // Data is an array of strings of all the servers
-			// sendMSG("OK\n", dout);
-
-			// // Initialise variable for server DATA
-			// int numServer = Integer.parseInt(Data[1]);                                      // Number of servers on system.
-			// Server[] serverList = new Server[numServer];                                    // Create server array.
-
-			// // Loop through all servers to create server list
-			// for (int i = 0; i < numServer; i++) {
-			// 	rcvd = readMSG(din);
-			// 	String[] stringList = parsing(rcvd);
-			// 	serverList[i] = new Server(stringList[0], stringList[4]);
-			// }
-
-			// Arrays.sort(serverList); // Sort Servers
-
-
-
-
-            // //ds-system.xml is available 
-            // List<Server> dsServers = parseDSSystemXML(ADDRESS);
-            // // to find out the server at the ds-sim server sde,
-            // dout.write(REDY.getBytes());
-            // String reply = din.readLine();
-            // System.out.println("Server says: "+reply);
-            // while(!reply.equals(NONE)){
-            //     //parse the incoming message from ds-server
-            //     List<String> parsedInfo = parseJOBNMessage(reply);                  //needs work 
-            //     //parseInfo 0> jobId
-            //     //1>> core
-            //     //2>> mem
-            //     //3>> disk 
-
-            //     String[] value = hangleGetsCapable(coreCount, memory, disk, din, dout);                                         //needs work
-            //     String Schedule = createSCHDString(jobId, Integer.parseInt(value[1]), Integer.parseInt(value[2])); //the SCHD   //needs work
-            //     dout.write(REDY.getBytes());
-            //     reply = din.readLine();
-            //     System.out.println("Server says: "+ reply);
+            Arrays.sort(serverList); // Sort Servers
             }
         } catch(IOException e) {
             Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, e);
