@@ -164,7 +164,7 @@ public class Stage_2 {
 
 				switch (job[0]) {
 				case "JOBN": // Schedule job
-					sendMSG("SCHD " + job[2] + " " + serverList[highestCoreIndex].getType() + " 0" + "\n", dout);
+                    sendMSG(createSCHDString(job[2], SelectedServer.getServerType(), SelectedServer.getType()), dout);
 					break;
 				case "JCPL": // If job is being completed send REDY
 					sendMSG(REDY, dout);
