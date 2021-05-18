@@ -143,7 +143,7 @@ public class Stage_2 {
 			for (int i = 0; i < numServer; i++) {
 				rcvd = din.readLine();
 				String[] stringList = parsing(rcvd);
-				serverList[i] = new Server(Integer.parseInt(stringList[0]), Integer.parseInt(stringList[1]), Integer.parseInt(stringList[2]), Integer.parseInt(stringList[3]), Integer.parseInt(stringList[4]), stringList[5]);
+				serverList[i] = new Server(stringList[0], Integer.parseInt(stringList[1]),stringList[2], Integer.parseInt(stringList[3]), Integer.parseInt(stringList[4]), Integer.parseInt(stringList[5]), Integer.parseInt(stringList[6]));
 			}
 
             Arrays.sort(serverList); 
@@ -181,7 +181,7 @@ public class Stage_2 {
 
 				switch (job[0]) {
 				case "JOBN": // Schedule Job
-                    sendMSG(createSCHDString(job[2], SelectedServer.getServerID(), SelectedServer.getServerType()), dout);
+                    sendMSG(createSCHDString(job[2], SelectedServer.getServerServerID(), SelectedServer.getServerType()), dout);
 					break;
 				case "JCPL": // If job is being completed send REDY
 					sendMSG(REDY, dout);
