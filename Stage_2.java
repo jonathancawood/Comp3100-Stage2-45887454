@@ -16,6 +16,8 @@ public class Stage_2 {
     private static final String WHITE_SPACE = " ";
     private static final String GETS_ALL = "GETS All\n";
     private static final String GETS_CAPABLE = "GETS Capable";
+
+    private static final String DESIRED_SERVER_STATE = "idle";
     
     private static Socket socket;
     private static DataInputStream din;
@@ -109,14 +111,26 @@ public class Stage_2 {
         return ans;
     }   // not used (using gets all)
 
-    public static Server NewAlgorithm(String job, Server[] serverlist){
-        //
-        //
-        //
-        //
-        //
-        //
-    return NewAlgorithmSERVER; // output of the new algorithm
+    public static Server DecendingFirstFit(String[] job, Server[] serverlist){
+        //the idea is to reverse the array and start with the biggest corecount first, first fit on steroids.
+        
+        //job is an array of strings, this array is created whith in the while loop
+        //need to figure out what index the corecount is on to then determine which server is capable of running it 
+
+        int CoreCount = Integer.parInt(job[2]); 
+
+        Collections.sort(serverList, Collections.reverseOrder());
+
+        Server DFFSERVER = Server("", 0, "", 0, 0, 0, 0);
+
+        for (int i; i<serverList.size(); i++){
+            if (serverList[i].getServerState() == DESIRED_SERVER_STATE){
+                if (serverList[i].getServerCoreCount() >= CoreCount){
+                    DFFSERVER = serverList[i];
+                }
+            }
+        }
+    return DFFSERVER;
     }
 
     public static void main(String[] args) {
@@ -148,40 +162,18 @@ public class Stage_2 {
 
             Arrays.sort(serverList); 
 
-            //
-            //
-            //
-            
-            Server SelectedServer = NewAlgorithm(FirstJob, serverList);
-            // thinking this will have to go in the while loop so that ever job gets the right server
-            // going to have to figure out how to implement this in the while loop 
-            
-
-            
-            //
-            //
-            //
-
-            sendMSG(OK, dout); // catch the "." at end of data stream.
+            sendMSG(OK, dout);
 			rcvd = din.readLine();
 
-			// Schedule jobs to server
 			rcvd = FirstJob;
 
 			while (!rcvd.equals(NONE)) {
-				String[] job = parsing(rcvd); // Get job id and job type for switch statement
-
-                //
-                //
-
-                //thinking the code to call the algorithm is going to have to be here. 
-
-                //
-                //
+				String[] job = parsing(rcvd); 
+                Server SelectedServer = DecendingFirstFit(FirstJob, serverList);
 
 				switch (job[0]) {
 				case "JOBN": // Schedule Job
-                    sendMSG(createSCHDString(job[2], SelectedServer.getServerServerID(), SelectedServer.getServerType()), dout);
+                    sendMSG(createSCHDString(job, SelectedServer.getServerServerID(), SelectedServer.getServerType()), dout);
 					break;
 				case "JCPL": // If job is being completed send REDY
 					sendMSG(REDY, dout);
