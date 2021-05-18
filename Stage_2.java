@@ -9,7 +9,8 @@ public class Stage_2 {
     private static final String HELO = "HELO\n";
     private static final String OK = "OK\n";
     private static final String NONE = "NONE\n";
-    private static final String AUTH = "AUTH BLANK\n";
+    private static final String AUTH = "AUTH jono\n";
+    private static final String ERROR = "ERROR Something has gone wrong!!!!";
     private static final String QUIT = "QUIT\n";
     private static final String DSSYSTEM_FILE_ADDRESs = "ds-system.xml";
     private static final String WHITE_SPACE = " ";
@@ -37,19 +38,26 @@ public class Stage_2 {
 
     private static void handshake(DataInputStream din, DataOutputStream dout) {
         try {
-            // first step
-            dout.write(HELO.getBytes());
+            sendMSG(HELO, dout);
             String reply = din.readLine();
-            System.out.println("Server says: " + reply);
+			if (reply.equals(OK)) {
+				sendMSG(AUTH, dout);
+			} else {
+				System.out.println(ERROR);
+			}
 
-            // second step
-            dout.write(AUTH.getBytes());
-            reply = din.readLine();
-            System.out.println("Server says: " + reply);
-        } catch (IOException e) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, ex);
-        }
+			reply = din.readLine();
+			if (reply.equals(OK)) {
+				sendMSG(REDY, dout);
+			} else {
+				System.out.println(ERROR);
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
     }
+
 
     private static List<Server> parseDSSystemXML(String fileAddress){
         List<Server> dsServerList = new ArrayList<>(); 
@@ -121,11 +129,11 @@ public class Stage_2 {
 
 			HandShake(din, dout);
 
-			rcvd = readMSG(din);
+			rcvd = din.readLine();
 			String firstjob = rcvd;
 
 			sendMSG(GETS_ALL, dout); 
-			rcvd = readMSG(din);
+			rcvd = din.readLine();
 			String[] Data = parsing(rcvd); 
 			sendMSG(OK, dout);
 
@@ -133,7 +141,7 @@ public class Stage_2 {
 			Server[] serverList = new Server[numServer]; 
 
 			for (int i = 0; i < numServer; i++) {
-				rcvd = readMSG(din);
+				rcvd = din.readLine();
 				String[] stringList = parsing(rcvd);
 				serverList[i] = new Server(stringList[0], stringList[1], stringList[2], stringList[3], stringList[4], stringList[5]);
 			}
@@ -155,7 +163,7 @@ public class Stage_2 {
             //
 
             sendMSG(OK, dout); // catch the "." at end of data stream.
-			rcvd = readMSG(din);
+			rcvd = din.readLine();
 
 			// Schedule jobs to server
 			rcvd = firstjob;
@@ -182,7 +190,7 @@ public class Stage_2 {
 					sendMSG(REDY, dout);
 					break;
 				}
-				rcvd = readMSG(din);
+				rcvd = din.readLine();
 			}
 
 			sendMSG(QUIT, dout);
