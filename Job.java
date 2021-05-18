@@ -6,7 +6,7 @@ public class Job {
     private int memory;
     private int disk;
 
-    public Server(int _submitTime, int _jobID, int _estRuntime, int _core, int _memory, int _disk){
+    public Job(int _submitTime, int _jobID, int _estRuntime, int _core, int _memory, int _disk){
         //setters methods
         setJOBsubmitTime(_submitTime);
         setJOBjobID(_jobID);
