@@ -111,7 +111,12 @@ public class Stage_2 {
         return ans;
     }
 
+    public static Server NewAlgorithm(Job job, String[] serverlist){
 
+
+        
+    return NewAlgorithmSERVER; // output of the new algorithm
+    }
 
     public static void main(String[] args) {
         try { 
