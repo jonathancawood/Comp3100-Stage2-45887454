@@ -109,7 +109,7 @@ public class Stage_2 {
         return ans;
     }   // not used (using gets all)
 
-    public static Server NewAlgorithm(Job job, String[] serverlist){
+    public static Server NewAlgorithm(String job, Server[] serverlist){
         //
         //
         //
@@ -127,10 +127,10 @@ public class Stage_2 {
 
             String rcvd = "";
 
-			HandShake(din, dout);
+			handshake(din, dout);
 
 			rcvd = din.readLine();
-			String firstjob = rcvd;
+			String FirstJob = rcvd;
 
 			sendMSG(GETS_ALL, dout); 
 			rcvd = din.readLine();
@@ -143,7 +143,7 @@ public class Stage_2 {
 			for (int i = 0; i < numServer; i++) {
 				rcvd = din.readLine();
 				String[] stringList = parsing(rcvd);
-				serverList[i] = new Server(stringList[0], stringList[1], stringList[2], stringList[3], stringList[4], stringList[5]);
+				serverList[i] = new Server(Integer.parseInt(stringList[0]), Integer.parseInt(stringList[1]), Integer.parseInt(stringList[2]), Integer.parseInt(stringList[3]), Integer.parseInt(stringList[4]), stringList[5]);
 			}
 
             Arrays.sort(serverList); 
@@ -152,7 +152,7 @@ public class Stage_2 {
             //
             //
             
-            Server SelectedServer = NewAlgorithm(Firstjob, serverList);
+            Server SelectedServer = NewAlgorithm(FirstJob, serverList);
             // thinking this will have to go in the while loop so that ever job gets the right server
             // going to have to figure out how to implement this in the while loop 
             
@@ -166,7 +166,7 @@ public class Stage_2 {
 			rcvd = din.readLine();
 
 			// Schedule jobs to server
-			rcvd = firstjob;
+			rcvd = FirstJob;
 
 			while (!rcvd.equals(NONE)) {
 				String[] job = parsing(rcvd); // Get job id and job type for switch statement
@@ -180,8 +180,8 @@ public class Stage_2 {
                 //
 
 				switch (job[0]) {
-				case "JOBN": // Schedule job
-                    sendMSG(createSCHDString(job[2], SelectedServer.getServerType(), SelectedServer.getType()), dout);
+				case "JOBN": // Schedule Job
+                    sendMSG(createSCHDString(job[2], SelectedServer.getServerID(), SelectedServer.getServerType()), dout);
 					break;
 				case "JCPL": // If job is being completed send REDY
 					sendMSG(REDY, dout);
@@ -196,10 +196,10 @@ public class Stage_2 {
 			sendMSG(QUIT, dout);
 
 			dout.close();
-			s.close();
+			socket.close();
             
-        }catch(IOException e) {
-            Logger.getLogger(Test.class.getName()).log(Level.SEVERE, null, e);
+        }catch(Exception e) {
+            System.out.println(e);
         }
 
     }
