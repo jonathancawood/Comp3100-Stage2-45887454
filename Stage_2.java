@@ -111,7 +111,7 @@ public class Stage_2 {
         return ans;
     }   // not used (using gets all)
 
-    public static Server DecendingFirstFit(String[] job, Server[] serverlist){
+    public static Server DescendingFirstFit(String[] job, Server[] serverlist){
         //the idea is to reverse the array and start with the biggest corecount first, first fit on steroids.
         
         //job is an array of strings, this array is created whith in the while loop
@@ -169,7 +169,7 @@ public class Stage_2 {
 
 			while (!rcvd.equals(NONE)) {
 				String[] job = parsing(rcvd); 
-                Server SelectedServer = DecendingFirstFit(FirstJob, serverList);
+                Server SelectedServer = DescendingFirstFit(FirstJob, serverList);
 
 				switch (job[0]) {
 				case "JOBN": // Schedule Job
