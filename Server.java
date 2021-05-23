@@ -1,6 +1,6 @@
 public class Server {
     private String type;
-    private int serverId;
+    private int serverID;
     private String state;
     private int curStartTime;
     private int core;
@@ -24,7 +24,7 @@ public class Server {
     }
 
     public void setServerServerID(int _serverID){
-        this.ServerID = _serverID;
+        this.serverID = _serverID;
     }
 
     public void setServerState(String _state){
@@ -55,7 +55,7 @@ public class Server {
     }
 
     public int getServerServerID(){
-        return this.serverId;
+        return this.serverID;
     }
 
     public String getServerState(){
