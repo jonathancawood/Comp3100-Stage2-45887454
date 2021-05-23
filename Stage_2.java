@@ -92,24 +92,24 @@ public class Stage_2 {
         return "SCHD" +WHITE_SPACE + jobId + WHITE_SPACE + serverType + WHITE_SPACE + serverId;
     }
 
-    private static String[] hangleGetsCapable(int coreCount, int memory, int disk, DataInputStream din, DataOutputStream dout){
-        String GetsCapable = GETS_CAPABLE +WHITE_SPACE+ coreCount +WHITE_SPACE+ memory +WHITE_SPACE+ disk;
-        dout.write(GetsCapable.getBytes());
-        String reply = din.readLine();
-        String[] datareply =reply.split(WHITE_SPACE);
-        int lines = Integer.parseInt(datareply[1]);
-        int length = Integer.parseInt(datareply[2]);
-        for (){                                                                                      //needs work
-            //read message from server                                                               //needs work
-            //parse and add it to the temporay servers                                               //needs work 
-        }                                                                                            //needs work
-        //look for the best capcable server within temporry servers.                                 //needs work
-        String sId, stype;
-        String[] ans = new String[2];
-        ans[0]= sId;
-        ans[1]= stype;
-        return ans;
-    }   // not used (using gets all)
+    // private static String[] hangleGetsCapable(int coreCount, int memory, int disk, DataInputStream din, DataOutputStream dout){
+    //     String GetsCapable = GETS_CAPABLE +WHITE_SPACE+ coreCount +WHITE_SPACE+ memory +WHITE_SPACE+ disk;
+    //     dout.write(GetsCapable.getBytes());
+    //     String reply = din.readLine();
+    //     String[] datareply =reply.split(WHITE_SPACE);
+    //     int lines = Integer.parseInt(datareply[1]);
+    //     int length = Integer.parseInt(datareply[2]);
+    //     //for (){                                                                                      //needs work
+    //         //read message from server                                                               //needs work
+    //         //parse and add it to the temporay servers                                               //needs work 
+    //     //}                                                                                            //needs work
+    //     //look for the best capcable server within temporry servers.                                 //needs work
+    //     String sId, stype;
+    //     String[] ans = new String[2];
+    //     ans[0]= sId;
+    //     ans[1]= stype;
+    //     return ans;
+    // }   // not used (using gets all)
 
     public static Server DescendingFirstFit(String[] job, Server[] serverlist){
         //the idea is to reverse the array and start with the biggest corecount first, first fit on steroids.
@@ -117,16 +117,16 @@ public class Stage_2 {
         //job is an array of strings, this array is created whith in the while loop
         //need to figure out what index the corecount is on to then determine which server is capable of running it 
 
-        int CoreCount = Integer.parInt(job[2]); 
+        int CoreCount = Integer.parseInt(job[2]); 
 
-        Collections.sort(serverList, Collections.reverseOrder());
+        Collections.sort(serverlist, Collections.reverseOrder());
 
-        Server DFFSERVER = Server("", 0, "", 0, 0, 0, 0);
+        Server DFFSERVER = new Server("", 0, "", 0, 0, 0, 0);
 
-        for (int i; i<serverList.size(); i++){
-            if (serverList[i].getServerState() == DESIRED_SERVER_STATE){
-                if (serverList[i].getServerCoreCount() >= CoreCount){
-                    DFFSERVER = serverList[i];
+        for (int i; i<serverlist.length; i++){
+            if (serverlist[i].getServerState() == DESIRED_SERVER_STATE){
+                if (serverlist[i].getServerCoreCount() >= CoreCount){
+                    DFFSERVER = serverlist[i];
                 }
             }
         }
@@ -169,7 +169,7 @@ public class Stage_2 {
 
 			while (!rcvd.equals(NONE)) {
 				String[] job = parsing(rcvd); 
-                Server SelectedServer = DescendingFirstFit(FirstJob, serverList);
+                Server SelectedServer = DescendingFirstFit(job, serverList);
 
 				switch (job[0]) {
 				case "JOBN": // Schedule Job
