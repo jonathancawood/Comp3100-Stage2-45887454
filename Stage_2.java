@@ -12,16 +12,14 @@ public class Stage_2 {
     private static final String AUTH = "AUTH jono\n";
     private static final String ERROR = "ERROR Something has gone wrong!!!!";
     private static final String QUIT = "QUIT\n";
-    private static final String DSSYSTEM_FILE_ADDRESs = "ds-system.xml";
+    //private static final String DSSYSTEM_FILE_ADDRESs = "ds-system.xml";
     private static final String WHITE_SPACE = " ";
     private static final String GETS_ALL = "GETS All\n";
-    private static final String GETS_CAPABLE = "GETS Capable";
+    //private static final String GETS_CAPABLE = "GETS Capable";
 
     private static final String DESIRED_SERVER_STATE = "idle";
     
     private static Socket socket;
-    private static DataInputStream din;
-    private static DataOutputStream dout;
 
     public static void sendMSG(String msg, DataOutputStream out) {
 		try {
@@ -38,19 +36,19 @@ public class Stage_2 {
 		return splitData;
 	}
 
-    private static void handshake(DataInputStream din, DataOutputStream dout) {
+    private static void handshake(BufferedReader in, DataOutputStream out) {
         try {
-            sendMSG(HELO, dout);
-            String reply = din.readLine();
+            sendMSG(HELO, out);
+            String reply = in.readLine();
 			if (reply.equals(OK)) {
-				sendMSG(AUTH, dout);
+				sendMSG(AUTH, out);
 			} else {
 				System.out.println(ERROR);
 			}
 
-			reply = din.readLine();
+			reply = in.readLine();
 			if (reply.equals(OK)) {
-				sendMSG(REDY, dout);
+				sendMSG(REDY, out);
 			} else {
 				System.out.println(ERROR);
 			}
@@ -61,8 +59,8 @@ public class Stage_2 {
     }
 
 
-    private static List<Server> parseDSSystemXML(String fileAddress){
-        List<Server> dsServerList = new ArrayList<>(); 
+    //private static List<Server> parseDSSystemXML(String fileAddress){
+        //List<Server> dsServerList = new ArrayList<>(); 
        	// for (int i = 0; i < numServer; i++) {
 		// 	rcvd = readMSG(din);
 		// 	String[] stringList = parsing(rcvd);
@@ -75,18 +73,18 @@ public class Stage_2 {
         //create Server class, complete it with the required attributes like getter and setter functions 
         //optional >> implement comparable for server class or job class
         //easily sort those classes based on any attributes you want based collections java class
-        return dsServerList;
-    }   //not used
+        //return dsServerList;
+    //}   //not used
 
-    private static List<String> parseJOBNMessage(String serverReply){
-        List<String> info = new ArrayList<>();
-        String[] splitInfo = serverReply.split(WHITE_SPACE);
-        info.add(splitInfo[2]);
-        info.add(splitInfo[4]);
-        info.add(splitInfo[5]);
-        info.add(splitInfo[6]);
-        return info;
-    }   //not used (implment to convert string to job class, maybe store in a list)
+    // private static List<String> parseJOBNMessage(String serverReply){
+    //     List<String> info = new ArrayList<>();
+    //     String[] splitInfo = serverReply.split(WHITE_SPACE);
+    //     info.add(splitInfo[2]);
+    //     info.add(splitInfo[4]);
+    //     info.add(splitInfo[5]);
+    //     info.add(splitInfo[6]);
+    //     return info;
+    // }   //not used (implment to convert string to job class, maybe store in a list)
 
     private static String createSCHDString(String jobId, int serverId, String serverType){
         return "SCHD" +WHITE_SPACE + jobId + WHITE_SPACE + serverType + WHITE_SPACE + serverId;
@@ -136,11 +134,12 @@ public class Stage_2 {
     public static void main(String[] args) {
         try { 
             socket = new Socket(ADDRESS,PORT);
-            din = new DataInputStream(socket.getInputStream());
-            dout = new DataOutputStream(socket.getOutputStream());
+            BufferedReader din = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			DataOutputStream dout = new DataOutputStream(socket.getOutputStream());;
+
 
             String rcvd = "";
-
+ 
 			handshake(din, dout);
 
 			rcvd = din.readLine();
