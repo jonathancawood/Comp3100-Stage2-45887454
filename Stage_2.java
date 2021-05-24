@@ -117,12 +117,11 @@ public class Stage_2 {
 
         int CoreCount = Integer.parseInt(job[2]); 
 
-        //Collections.sort(serverlist, Collections.reverseOrder());
-        Collections.reverse(serverlist);
+        Collections.reverse(Arrays.asList(serverlist));
 
         Server DFFSERVER = new Server("", 0, "", 0, 0, 0, 0);
 
-        for (int i; i<serverlist.length; i++){
+        for (int i=0; i<serverlist.length; i++){
             if (serverlist[i].getServerState() == DESIRED_SERVER_STATE){
                 if (serverlist[i].getServerCoreCount() >= CoreCount){
                     DFFSERVER = serverlist[i];
