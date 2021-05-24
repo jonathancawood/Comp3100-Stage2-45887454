@@ -1,0 +1,10 @@
+This is the instructions on how these logs were collected.
+
+Firstly the DS-server was ran with the output log being redirected to a .txt file.
+"./ds-server -c ds-config01--wk9.xml -v all > <algorithm name>_log.txt"
+
+Secondly the client side terminal "./ds-client -a <algorithm>"
+
+these steps were repeated for "Worst-Fit_log.txt" and "First-Fit_log.txt" and "Best-Fit_log.txt", 
+with the algorithms "WF" and "FF" and "BF" for respective outputs. 
+
