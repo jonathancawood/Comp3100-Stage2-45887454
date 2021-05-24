@@ -78,5 +78,11 @@ public class Server {
         return this.disk;
     }
 
+    public int compareTo(Server c){
+        if(this.core - c.core ==0){
+            return c.type.compareTo(this.type);
+        }
+        return this.core - c.core;
+    }
 
 }
