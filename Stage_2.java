@@ -25,7 +25,7 @@ public class Stage_2 {
 		}
 	}
 
-    public static String ReadMSG(BufferedReader in) throws IOException {
+    public static String readMSG(BufferedReader in) throws IOException {
 		String reply = in.readLine();
         System.out.println("Received");
         return reply;
@@ -41,14 +41,15 @@ public class Stage_2 {
         try {
             String reply = new String();
             sendMSG(HELO, out);
-            reply = in.readLine();
+
+            reply = readMSG(in);
 			if (reply.equals(OK)) {
 				sendMSG(AUTH, out);
 			} else {
 				System.out.println(ERROR);
 			}
 
-			reply = in.readLine();
+            reply = readMSG(in);
 			if (reply.equals(OK)) {
 				sendMSG(REDY, out);
 			} else {
