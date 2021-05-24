@@ -9,7 +9,7 @@ public class Stage_2 {
     private static final String HELO = "HELO\n";
     private static final String OK = "OK\n";
     private static final String NONE = "NONE\n";
-    private static final String AUTH = "AUTH jono\n";
+    private static final String AUTH = "AUTH jono/n";
     private static final String ERROR = "ERROR Something has gone wrong!!!!";
     private static final String QUIT = "QUIT\n";
     //private static final String DSSYSTEM_FILE_ADDRESs = "ds-system.xml";
@@ -18,8 +18,6 @@ public class Stage_2 {
     //private static final String GETS_CAPABLE = "GETS Capable";
 
     private static final String DESIRED_SERVER_STATE = "idle";
-    
-    private static Socket socket;
 
     public static void sendMSG(String msg, DataOutputStream out) {
 		try {
@@ -133,10 +131,14 @@ public class Stage_2 {
 
     public static void main(String[] args) {
         try { 
-            socket = new Socket(ADDRESS,PORT);
-            BufferedReader din = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			DataOutputStream dout = new DataOutputStream(socket.getOutputStream());;
+            System.out.println("Started");
 
+			Socket s = new Socket(ADDRESS, PORT);
+
+			BufferedReader din = new BufferedReader(new InputStreamReader(s.getInputStream()));
+			DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+
+            System.out.println("Connected");
 
             String rcvd = "";
  
@@ -183,7 +185,7 @@ public class Stage_2 {
 			sendMSG(QUIT, dout);
 
 			dout.close();
-			socket.close();
+			s.close();
             
         }catch(Exception e) {
             System.out.println(e);
