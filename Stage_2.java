@@ -170,17 +170,13 @@ public class Stage_2 {
 				String[] job = parsing(rcvd); 
                 Server SelectedServer = DescendingFirstFit(job, serverList);
 
-				switch (job[0]) {
-				case "JOBN": // Schedule Job
+                if (job[0] == "JOBN"){
                     sendMSG(createSCHDString(job[2], SelectedServer.getServerServerID(), SelectedServer.getServerType()), dout);
-					break;
-				case "JCPL": // If job is being completed send REDY
-					sendMSG(REDY, dout);
-					break;
-				case "OK": // Ask for next job
-					sendMSG(REDY, dout);
-					break;
-				}
+                }else if (job[0] == "JCPL"){
+                    sendMSG(REDY, dout);
+                }else if (job[0] == "OK"){
+				 	sendMSG(REDY, dout);
+                }
 				rcvd = din.readLine();
 			}
 
