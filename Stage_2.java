@@ -117,7 +117,8 @@ public class Stage_2 {
 
         int CoreCount = Integer.parseInt(job[2]); 
 
-        Collections.sort(serverlist, Collections.reverseOrder());
+        //Collections.sort(serverlist, Collections.reverseOrder());
+        Collections.reverse(serverlist);
 
         Server DFFSERVER = new Server("", 0, "", 0, 0, 0, 0);
 
