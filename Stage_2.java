@@ -25,6 +25,12 @@ public class Stage_2 {
 		}
 	}
 
+    public static String ReadMSG(BufferedReader in) throws IOException {
+		String reply = in.readLine();
+        System.out.println("Received");
+        return reply;
+	}
+
     public static String[] parsing(String data) {
 		String delims = "[ ]+"; 
 		String[] splitData = data.split(delims);
@@ -33,8 +39,9 @@ public class Stage_2 {
 
     private static void handshake(BufferedReader in, DataOutputStream out) {
         try {
+            String reply = new String();
             sendMSG(HELO, out);
-            String reply = in.readLine();
+            reply = in.readLine();
 			if (reply.equals(OK)) {
 				sendMSG(AUTH, out);
 			} else {
