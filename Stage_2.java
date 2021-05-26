@@ -16,7 +16,7 @@ public class Stage_2 {
     private static final String GETS_ALL = "GETS All\n";
     private static final String DESIRED_SERVER_STATE = "idle";
 
-    public static void sendMSG(String msg, DataOutputStream out) {          // sends a given string to the iven dataoutputstream
+    public static void sendMSG(String msg, DataOutputStream out) {                              // sends a given string to the iven dataoutputstream
 		try {
 			out.write(msg.getBytes());
 			out.flush();
@@ -25,32 +25,32 @@ public class Stage_2 {
 		}
 	}
 
-    public static String readMSG(BufferedReader in) throws IOException {    // converts the received message from the server to a string
+    public static String readMSG(BufferedReader in) throws IOException {                        // converts the received message from the server to a string
 		String reply = in.readLine();
         System.out.println("Received");
         return reply;
 	}
 
-    public static String[] parsing(String data) {                           // splits a given string in an array of strings, with the set delimiter "[ ]+"
+    public static String[] parsing(String data) {                                               // splits a given string in an array of strings, with the set delimiter "[ ]+"
 		String delims = "[ ]+"; 
 		String[] splitData = data.split(delims);
 		return splitData;
 	}
 
-    private static void handshake(BufferedReader in, DataOutputStream out) {    // when called perfrom the hand shake between the server and client
+    private static void handshake(BufferedReader in, DataOutputStream out) {                    // when called perfrom the hand shake between the server and client
         try {
             String reply = new String();
             sendMSG(HELO, out);
 
             reply = readMSG(in);
-			if (reply.equals(OK)) {                         // checks if reply is "OK" if not send error message, if so send "AUTH jono" message
+			if (reply.equals(OK)) {                                                             // checks if reply is "OK" if not send error message, if so send "AUTH jono" message
 				sendMSG(AUTH, out);
 			} else {
 				System.out.println(ERROR);
 			}
 
             reply = readMSG(in);
-			if (reply.equals(OK)) {                         // checks if the reply is "OK" if not send error message, if so send "REDY" message
+			if (reply.equals(OK)) {                                                             // checks if the reply is "OK" if not send error message, if so send "REDY" message
 				sendMSG(REDY, out);
 			} else {
 				System.out.println(ERROR);
@@ -67,21 +67,21 @@ public class Stage_2 {
 
     public static Server DescendingFirstFit(String[] job, Server[] serverlist){                 // newly desgined algorithm 
 
-        int CoreCount = Integer.parseInt(job[2]);                           // store the corecount from the passed job
+        int CoreCount = Integer.parseInt(job[2]);                                               // store the corecount from the passed job
 
-        Collections.reverse(Arrays.asList(serverlist));                     // reverse the order of the serverlist, this will put it in decending order
+        Collections.reverse(Arrays.asList(serverlist));                                         // reverse the order of the serverlist, this will put it in decending order
 
-        Server DFFSERVER = new Server();                                    // initialise DFFSERVER, this will be the server to return
+        Server DFFSERVER = new Server();                                                        // initialise DFFSERVER, this will be the server to return
 
-        for (int i=0; i<serverlist.length; i++){                            // loop throught the serverlist sequentially
-            if (serverlist[i].getServerState() == DESIRED_SERVER_STATE){    // check the server state, if the server state is equal to "idle" progress to next condition, if not check next server
-                if (serverlist[i].getServerCoreCount() >= CoreCount){       // check if server capacity is larger then the jobs corecount, if not check next server 
-                    DFFSERVER = serverlist[i];                              // if passed store the current server
-                    return DFFSERVER;                                       // return the server to caller
+        for (int i=0; i<serverlist.length; i++){                                                // loop throught the serverlist sequentially
+            if (serverlist[i].getServerState() == DESIRED_SERVER_STATE){                        // check the server state, if the server state is equal to "idle" progress to next condition, if not check next server
+                if (serverlist[i].getServerCoreCount() >= CoreCount){                           // check if server capacity is larger then the jobs corecount, if not check next server 
+                    DFFSERVER = serverlist[i];                                                  // if passed store the current server
+                    return DFFSERVER;                                                           // return the server to caller
                 }
             }
         }   
-    return DFFSERVER;                                                       // if there is no server that meets this conditon send a blank server to caller 
+    return DFFSERVER;                                                                           // if there is no server that meets this conditon send a blank server to caller 
     }
 
     public static void main(String[] args) {
